@@ -2,36 +2,32 @@ from django.http import HttpResponse
 from google.cloud import bigquery
 from django.shortcuts import render
 
-table_id = 'cogent-repeater-369122.hacker_news.Stories'
-
+table_stories = 'bigquery-public-data.hacker_news.stories'
+table_github = 'bigquery-public-data.github_repos.sample_commits'
 client = bigquery.Client()
 
 
 def index(request):
-    return HttpResponse(200)
+    return HttpResponse("Hello, world.")
 
 
 def hacker_news(request):
-    # datasets = list(client.list_datasets())  # Make an API request.
-    # project = client.project
-    # if datasets:
-    #     print("Datasets in project {}:".format(project))
-    #     for dataset in datasets:
-    #         print("\t{}".format(dataset.dataset_id))
-    # else:
-    #     print("{} project does not contain any datasets.".format(project))
-    query_job = client.query(
-        """
-        SELECT *
-        FROM """ + table_id + """
-        LIMIT 10"""
-    )
+    query = " SELECT title, author, time_ts FROM " + \
+        table_stories + " ORDER BY time_ts DESC LIMIT 5"
+
+    query_job = client.query(query)
 
     results = query_job.result()
-    # for row in results:
-    #     print("{} : {} views".format(row.id, row.title, row.name))
+
     return render(request, 'stories.html', {'stories': results})
 
 
 def github(request):
-    return HttpResponse(200)
+    query = "SELECT author.name AS author_name, COUNT(*) AS commits FROM " + table_github + \
+        " WHERE EXTRACT(YEAR FROM committer.date) = 2016 GROUP BY (author.name) ORDER BY commits DESC"
+
+    query_job = client.query(query)
+
+    results = query_job.result()
+
+    return render(request, 'commits.html', {'commits': results})

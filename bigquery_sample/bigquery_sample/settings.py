@@ -122,3 +122,4 @@ STATIC_URL = '/static/'
 credentials_path = os.path.join(BASE_DIR, "privateKey.json")
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path
+os.environ["GCLOUD_PROJECT"] = "cogent-repeater-369122"

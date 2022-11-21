@@ -4,14 +4,14 @@
 SELECT
   store_name, COUNT(*) as 'the number of Sales'
 FROM
-  Sales sl
-INNER JOIN
-  Ingredient i
-ON 
+  sales sl
+  INNER JOIN
+  ingredient i
+  ON 
   sl.ingredient_id = i.ingredient_id
-INNER JOIN
-  Store st
-ON 
+  INNER JOIN
+  store st
+  ON 
   sl.store_id = st.store_id
 WHERE 
   i.ingredient_name = 'Lobster Ravioli'
@@ -28,14 +28,14 @@ ORDER BY
 SELECT
   store_name, COUNT(*) as 'the number of Sales'
 FROM
-  Sales sl
-INNER JOIN
-  Ingredient i
-ON 
+  sales sl
+  INNER JOIN
+  ingredient i
+  ON 
   sl.ingredient_id = i.ingredient_id
-INNER JOIN
-  Store st
-ON 
+  INNER JOIN
+  store st
+  ON 
   sl.store_id = st.store_id
 WHERE 
   i.ingredient_name = 'Lobster Ravioli'
@@ -52,12 +52,14 @@ ORDER BY
 -- Question #3
 -- Referencing the Sales table, write the corresponding `CREATE` SQL DDL statement. Include and provide justification for any improvements or add-ons as you see fit.
 
-CREATE TABLE Orders
+CREATE TABLE Sales
 (
-  order_id      NUMBER(8,0) PRIMARY KEY,
-  sales_id      NUMBER(8,0) REFERENCES Sales (sale_id),
-  order_name    VARCHAR(20),
-  phone_number  VARCHAR(10),
-  order_address VARCHAR(60),
-  quantity      NUMERIC
+  sale_id int NOT NULL,
+  ingredient_id int ,
+  business_date date NOT NULL,
+  sold_price float NOT NULL,
+  store_id int,
+  PRIMARY KEY (sale_id),
+  FOREIGN KEY (store_id) REFERENCES Store(store_id),
+  FOREIGN KEY (ingredient_id) REFERENCES ingredient(ingredient_id)
 );

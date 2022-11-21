@@ -22,17 +22,15 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Name</th>
-        <th scope="col">Publication</th>
+        <th scope="col">Author Name</th>
+        <th scope="col">Commit count</th>
       </tr>
     </thead>
     <tbody>
-      {% for story in stories %}
+      {% for commit in commits %}
       <tr>
-        <td>{{story.title}}</td>
-        <td>{{story.author}}</td>
-        <td>{{story.time_ts|date:'Y-m-d - g:i a'}}</td>
+        <td>{{commit.author_name}}</td>
+        <td>{{commit.commits}}</td>
       </tr>
       {% endfor %}
     </tbody>
